@@ -7,3 +7,8 @@ requests
 pandas
 tqdm
 pytz
+
+# new
+parsel
+elasticsearch==7.17.9
+elasticsearch-dsl==7.4.0
