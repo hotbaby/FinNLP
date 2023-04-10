@@ -44,7 +44,7 @@ class Sina_Finance_Date_Range(News_Downloader):
                     tmp = pd.DataFrame(i)
                     res = pd.concat([res, tmp])
                 time.sleep(delay)
-        
+
         if res.shape[0] != 0:
             res.ctime = pd.to_datetime(res.ctime, unit="s", utc=True)
             res.mtime = pd.to_datetime(res.mtime, unit="s", utc=True)
@@ -67,14 +67,18 @@ class Sina_Finance_Date_Range(News_Downloader):
 
         if response is not None:
             # process
-            response.encoding = 'unicode'
-            text = response.text
-            page = etree.HTML(text)
-            page = page.xpath("//*[@id='artibody']/p")
-            page = [p.xpath(".//text()") for p in page]
-            page = [''.join(p) for p in page]
-            content = "\n".join(page)
-            content = content.replace("\u3000","")
+            try:
+                response.encoding = 'unicode'
+                text = response.text
+                page = etree.HTML(text)
+                page = page.xpath("//*[@id='artibody']/p")
+                page = [p.xpath(".//text()") for p in page]
+                page = [''.join(p) for p in page]
+                content = "\n".join(page)
+                content = content.replace("\u3000", "")
+            except Exception as e:
+                print(e)
+                content = np.nan
         else:
             content = np.nan
 
@@ -83,4 +87,3 @@ class Sina_Finance_Date_Range(News_Downloader):
         time.sleep(delay)
 
         return content
-        
