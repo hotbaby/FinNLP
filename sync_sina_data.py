@@ -26,7 +26,7 @@ REDIS_CRAWLER_RUNNING_TASK_KEY = "data:crawler:running:{source}_{date}"
 REDIS_HOST = "119.3.206.62"
 REDIS_PORT = 6379
 REDIS_DB = 0
-REDIS_PASSWORD = "Chenmingming@"
+REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD")
 
 redis_cli = redis.Redis(host=REDIS_HOST, port=REDIS_PORT,
                         db=REDIS_DB, password=REDIS_PASSWORD)
