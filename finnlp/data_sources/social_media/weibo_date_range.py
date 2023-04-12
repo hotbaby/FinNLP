@@ -9,6 +9,7 @@ import datetime
 import time
 import json
 import re
+from urllib.parse import urlencode
 
 class Weibo_Date_Range(Social_Media_Downloader):
     def __init__(self, args = {}):
@@ -95,9 +96,10 @@ class Weibo_Date_Range(Social_Media_Downloader):
                 source = info[3]
             except:
                 source = np.nan
-            
-            tmp = pd.DataFrame([start_date, date_content, source, content]).T
-            tmp.columns = ["date","date_content", "source", "content"]
+
+            complete_url = "?".join([url, urlencode(params)])
+            tmp = pd.DataFrame([complete_url, start_date, date_content, source, content]).T
+            tmp.columns = ["url", "date", "date_content", "source", "content"]
             self.dataframe = pd.concat([self.dataframe, tmp])
 
         time.sleep(delay)
@@ -146,9 +148,9 @@ class Weibo_Date_Range(Social_Media_Downloader):
                 source = info[3]
             except:
                 source = np.nan
-            
-            tmp = pd.DataFrame([date, date_content, source, content]).T
-            tmp.columns = ["date", "date_content", "source", "content"]
+
+            tmp = pd.DataFrame([url, date, date_content, source, content]).T
+            tmp.columns = ["url", "date", "date_content", "source", "content"]
             self.dataframe = pd.concat([self.dataframe, tmp])
 
         time.sleep(delay)
